@@ -8,11 +8,12 @@ module Morale
     
     API_VERSION = 'v1'
     
-    attr_accessor :user, :password
+    attr_accessor :user, :password, :api_key
     
     def self.authorize(user, password, subdomain)
       client = new(user, password, subdomain)
-      client.class.post('/in', { :email => client.user, :password => client.password })
+      client.api_key = client.class.post('/in', { :email => client.user, :password => client.password })["api_key"]
+      return client
     end
     
     def initialize(user, password, subdomain)
@@ -23,6 +24,7 @@ module Morale
     end
     
     def projects
+      self.class.get('/projects')
     end
     
     def default_project=(project)

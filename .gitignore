@@ -4,3 +4,4 @@ pkg
 rdoc
 .rvmrc
 tags
+.DS_Store

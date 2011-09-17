@@ -20,18 +20,19 @@ module Morale
       return client
     end
     
-    def initialize(subdomain, api_key = "")
+    def self.accounts(user)
+      client = new
+      client.unauthorize
+      response = client.class.get('/accounts', { :email => user })
+      raise Unauthorized if response.code == 401
+      response
+    end
+    
+    def initialize(subdomain="", api_key="")
       @api_key = api_key
       @subdomain = subdomain
       #TODO: Save the domain in a config file
-      self.class.default_options[:base_uri] = HTTParty.normalize_base_uri("#{subdomain}.lvh.me:3000/api/#{API_VERSION}")
-    end
-    
-    def accounts(user)
-      unauthorize
-      response = self.class.get('/accounts', { :email => user })
-      raise Unauthorized if response.code == 401
-      response
+      self.class.default_options[:base_uri] = HTTParty.normalize_base_uri("#{subdomain}#{"." unless subdomain.blank?}lvh.me:3000/api/#{API_VERSION}")
     end
     
     def projects

@@ -25,13 +25,17 @@ describe Morale::Command do
     end
     
     it "should store your api key once you have signed in if credentials are not yet stored" do
-      #output = process('someone@somewhere.com') { Morale::Command.start ["login"] }
+      Morale::Account.subdomain = "blah"
+      stub_request(:post, "http://blah.lvh.me:3000/api/v1/in").to_return(:body => { "api_key" => "api_key" }.to_json)
+      output = process('someone@somewhere.com') { Morale::Command.start ["login"] }
+      File.read(Morale::Account.location).should =~ /blah/
+      File.read(Morale::Account.location).should =~ /api_key/
     end
   end
   
   describe "#accounts" do
     it "should return all the group names for an account that a user has access to" do
-      stub_request(:get, "http://blah.lvh.me:3000/api/v1/accounts").to_return(:body => 
+      stub_request(:get, "http://lvh.me:3000/api/v1/accounts").to_return(:body => 
         [{"account" => {"group_name" => "Shimmy Sham","site_address"=>"shimmy_sham","created_at" => "2011-07-31T21:28:53Z","updated_at" => "2011-07-31T21:28:53Z","plan_id" => 1,"id" => 2}},
          {"account" => {"group_name" => "Pumpkin Tarts","site_address"=>"pumpkin_tarts","created_at" => "2011-07-31T21:40:24Z","updated_at" => "2011-07-31T21:40:24Z","plan_id" => 1,"id" => 1}}].to_json)
          

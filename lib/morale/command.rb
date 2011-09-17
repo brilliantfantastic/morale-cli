@@ -13,7 +13,7 @@ module Morale
     
     desc "accounts", "gets all the subdomains available for a given email address."    
     def accounts(email)
-      Morale::Command.client.accounts(email).sort{|a,b| a['account']['group_name'] <=> b['account']['group_name']}.each_with_index do |record, i|
+      Morale::Client.accounts(email).sort{|a,b| a['account']['group_name'] <=> b['account']['group_name']}.each_with_index do |record, i|
         puts "#{i += 1}. #{record['account']['group_name']}"
       end
     end

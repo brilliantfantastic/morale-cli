@@ -11,8 +11,19 @@ describe Morale::Client do
     end
   end
   
+  describe "#accounts" do
+    it "displays all the accounts for a specific user" do
+      stub_request(:get, "http://lvh.me:3000/api/v1/accounts").to_return(:body => 
+        [{"account" => {"group_name" => "Shimmy Sham","site_address"=>"shimmy_sham","created_at" => "2011-07-31T21:28:53Z","updated_at" => "2011-07-31T21:28:53Z","plan_id" => 1,"id" => 2}},
+         {"account" => {"group_name" => "Pumpkin Tarts","site_address"=>"pumpkin_tarts","created_at" => "2011-07-31T21:40:24Z","updated_at" => "2011-07-31T21:40:24Z","plan_id" => 1,"id" => 1}}].to_json)
+         
+      accounts = Morale::Client.accounts('someone@example.com')
+      accounts.count.should == 2
+    end
+  end
+  
   describe "#projects" do
-    it "grabs all the projects for a specific account" do
+    it "displays all the projects for a specific account" do
       stub_request(:get, "http://blah:@blah.lvh.me:3000/api/v1/projects").to_return(:body => 
         [{"project" => {"name" => "Skunk Works","created_at" => "2011-07-31T21:40:24Z","updated_at" => "2011-07-31T21:40:24Z","account_id" => 1,"id" => 1}},
          {"project" => {"name" => "Poop Shoot","created_at" => "2011-07-31T21:28:53Z","updated_at" => "2011-07-31T21:28:53Z","account_id" => 1,"id" => 2}}].to_json)

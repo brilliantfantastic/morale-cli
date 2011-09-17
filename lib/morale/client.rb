@@ -15,6 +15,7 @@ module Morale
     
     def self.authorize(user, password, subdomain)
       client = new(subdomain)
+      client.unauthorize
       client.api_key = client.class.post('/in', { :email => user, :password => password })["api_key"]
       return client
     end
@@ -48,8 +49,6 @@ module Morale
     
     def tickets(options={})
     end
-    
-    private
     
     def authorize
       self.class.basic_auth @subdomain, @api_key

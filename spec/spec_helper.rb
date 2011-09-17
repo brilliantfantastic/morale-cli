@@ -7,16 +7,15 @@ require "webmock/rspec"
 require "stringio"
 
 RSpec.configure do |config|
-  def capture(stream)
+  def process(stdin_str = '')
     begin
-      stream = stream.to_s
-      eval "$#{stream} = StringIO.new"
+      require 'stringio'
+      $o_stdin, $o_stdout, $o_stderr = $stdin, $stdout, $stderr
+      $stdin, $stdout, $stderr = StringIO.new(stdin_str), StringIO.new, StringIO.new
       yield
-      result = eval("$#{stream}").string
+      {:stdout => $stdout.string, :stderr => $stderr.string}
     ensure
-      eval("$#{stream} = #{stream.upcase}")
+      $stdin, $stdout, $stderr = $o_stdin, $o_stdout, $o_stderr
     end
-
-    result
   end
 end

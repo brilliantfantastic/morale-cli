@@ -3,9 +3,9 @@ require 'morale/account'
 
 describe Morale::Account do
   describe "#subdomain" do
-    it "should store the subdomain in a configuration file" do
+    it "should store the subdomain in the credentials file" do
       Morale::Account.subdomain = "blah"
-      #TODO: Check the file to see if the subdomain is stored
+      File.read(Morale::Account.location).should =~ /blah/
     end
   end
 end

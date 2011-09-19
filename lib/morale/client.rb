@@ -4,6 +4,7 @@ require "json"
 module Morale
   class Client
     class Unauthorized  < RuntimeError; end
+    class NotFound < RuntimeError; end
     
     include HTTParty
     format :json
@@ -16,15 +17,16 @@ module Morale
     def self.authorize(user, password, subdomain)
       client = new(subdomain)
       client.unauthorize
-      client.api_key = client.class.post('/in', { :email => user, :password => password })["api_key"]
+      client.api_key = client.class.post('/in', :body => { :email => user, :password => password })["api_key"]
       return client
     end
     
     def self.accounts(user)
       client = new
       client.unauthorize
-      response = client.class.get("/accounts?email=#{user}")#, { :email => user })
+      response = client.class.get("/accounts", :query => { :email => user })
       raise Unauthorized if response.code == 401
+      raise NotFound if response.code == 404
       response
     end
     

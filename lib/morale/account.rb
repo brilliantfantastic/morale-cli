@@ -1,3 +1,4 @@
+require 'morale/flow'
 require 'morale/credentials_store'
 
 module Morale
@@ -5,6 +6,7 @@ module Morale
     class << self
       
       include Morale::CredentialsStore
+      include Morale::Flow
       
       def subdomain
         if @subdomain.nil?
@@ -49,7 +51,13 @@ module Morale
 
       def ask_for_credentials
         user ||= nil
-        user = ask_for_subdomain if @subdomain.nil?
+        
+        begin
+          user = ask_for_subdomain if @subdomain.nil?
+        rescue Morale::Client::NotFound
+          puts "Email is not registered."
+          return
+        end
         
         puts "Sign in to Morale."
 
@@ -61,6 +69,8 @@ module Morale
         print "Password: "
         password = running_on_windows? ? ask_for_secret_on_windows : ask_for_secret
         api_key = Morale::Client.authorize(user, password, @subdomain).api_key
+        
+        puts "Invalid email/password combination or API key was not generated." if api_key.nil?
 
         [@subdomain, api_key]
       end
@@ -70,15 +80,26 @@ module Morale
         
         print "Email: "
         user = ask
-        
+
         accounts = Morale::Client.accounts user
-        accounts.sort{|a,b| a['account']['group_name'] <=> b['account']['group_name']}.each_with_index do |record, i|
-          puts "#{i += 1}. #{record['account']['group_name']}"
-        end
+        account = nil
         
-        print "Choose an account: "
-        index = ask
-        @subdomain = accounts[index.to_i - 1]['account']['site_address']
+        retryable(:indefinate => true) do
+          accounts.sort{|a,b| a['account']['group_name'] <=> b['account']['group_name']}.each_with_index do |record, i|
+            puts "#{i += 1}. #{record['account']['group_name']}"
+          end
+
+          print "Choose an account: "
+          index = ask
+          account = accounts[index.to_i - 1]
+          
+          if account.nil?
+            puts "Invalid account."
+            raise Exception
+          end
+        end
+
+        @subdomain = account['account']['site_address'] unless account.nil?
         user
       end
     end

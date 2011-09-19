@@ -4,7 +4,7 @@ module Morale
   class Authorization
     class << self
       def client
-        Morale::Client.new(Morale::Account.subdomain)
+        Morale::Client.new(Morale::Account.subdomain, Morale::Account.api_key)
       end
       
       def login

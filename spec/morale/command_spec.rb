@@ -47,7 +47,7 @@ describe Morale::Command do
   
   describe "#projects" do
     it "should return all the project names for an account" do
-      stub_request(:get, "http://blah:@blah.lvh.me:3000/api/v1/projects").to_return(:body => 
+      stub_request(:get, "http://blah:api_key@blah.lvh.me:3000/api/v1/projects").to_return(:body => 
         [{"project" => {"name" => "Skunk Works","created_at" => "2011-07-31T21:40:24Z","updated_at" => "2011-07-31T21:40:24Z","account_id" => 1,"id" => 1}},
          {"project" => {"name" => "Poop Shoot","created_at" => "2011-07-31T21:28:53Z","updated_at" => "2011-07-31T21:28:53Z","account_id" => 1,"id" => 2}}].to_json)
          
@@ -57,8 +57,8 @@ describe Morale::Command do
     end
     
     it "should raise unauthorized if a 401 is retrieved" do
-      stub_request(:post, "http://blah.lvh.me:3000/api/v1/in").to_return(:body => { "api_key" => "blah!" }.to_json)
-      stub_request(:get, "http://blah:@blah.lvh.me:3000/api/v1/projects").to_return(:status => 401)
+      stub_request(:post, "http://blah.lvh.me:3000/api/v1/in").to_return(:body => { "api_key" => "api_key" }.to_json)
+      stub_request(:get, "http://blah:api_key@blah.lvh.me:3000/api/v1/projects").to_return(:status => 401)
          
       output = process() { Morale::Command.start(["projects"]) }
       output[:stdout].should =~ /Authentication failure/

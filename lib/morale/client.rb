@@ -23,7 +23,7 @@ module Morale
     def self.accounts(user)
       client = new
       client.unauthorize
-      response = client.class.get('/accounts', { :email => user })
+      response = client.class.get("/accounts?email=#{user}")#, { :email => user })
       raise Unauthorized if response.code == 401
       response
     end

@@ -35,7 +35,7 @@ describe Morale::Command do
   
   describe "#accounts" do
     it "should return all the group names for an account that a user has access to" do
-      stub_request(:get, "http://lvh.me:3000/api/v1/accounts").to_return(:body => 
+      stub_request(:get, "http://lvh.me:3000/api/v1/accounts?email=someone@example.com").to_return(:body => 
         [{"account" => {"group_name" => "Shimmy Sham","site_address"=>"shimmy_sham","created_at" => "2011-07-31T21:28:53Z","updated_at" => "2011-07-31T21:28:53Z","plan_id" => 1,"id" => 2}},
          {"account" => {"group_name" => "Pumpkin Tarts","site_address"=>"pumpkin_tarts","created_at" => "2011-07-31T21:40:24Z","updated_at" => "2011-07-31T21:40:24Z","plan_id" => 1,"id" => 1}}].to_json)
          

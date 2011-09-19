@@ -49,7 +49,7 @@ module Morale
 
       def ask_for_credentials
         user ||= nil
-        #user = ask_for_subdomain if @subdomain.nil?
+        user = ask_for_subdomain if @subdomain.nil?
         
         puts "Sign in to Morale."
 
@@ -72,8 +72,13 @@ module Morale
         user = ask
         
         accounts = Morale::Client.accounts user
+        accounts.sort{|a,b| a['account']['group_name'] <=> b['account']['group_name']}.each_with_index do |record, i|
+          puts "#{i += 1}. #{record['account']['group_name']}"
+        end
+        
         print "Choose an account: "
         index = ask
+        @subdomain = accounts[index.to_i - 1]['account']['site_address']
         user
       end
     end

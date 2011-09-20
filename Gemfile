@@ -9,3 +9,8 @@ group :test do
   gem "rspec", ">= 2.0"
   gem "webmock"
 end
+
+group :cucumber do
+	gem "cucumber"
+	gem "aruba"
+end

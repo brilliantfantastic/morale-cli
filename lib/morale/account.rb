@@ -76,9 +76,9 @@ module Morale
       end
       
       def ask_for_subdomain
-        puts "No account specified for Morale."
+        $stdout.puts "No account specified for Morale."; $stdout.flush
         
-        print "Email: "
+        $stdout.print "Email: "; $stdout.flush
         user = ask
 
         accounts = Morale::Client.accounts user
@@ -86,15 +86,15 @@ module Morale
         
         retryable(:indefinate => true) do
           accounts.sort{|a,b| a['account']['group_name'] <=> b['account']['group_name']}.each_with_index do |record, i|
-            puts "#{i += 1}. #{record['account']['group_name']}"
+            $stdout.puts "#{i += 1}. #{record['account']['group_name']}"; $stdout.flush
           end
 
-          print "Choose an account: "
+          $stdout.print "Choose an account: "; $stdout.flush
           index = ask
           account = accounts[index.to_i - 1]
           
           if account.nil?
-            puts "Invalid account."
+            $stdout.puts "Invalid account."; $stdout.flush
             raise Exception
           end
         end

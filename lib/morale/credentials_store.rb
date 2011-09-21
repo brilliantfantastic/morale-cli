@@ -7,6 +7,10 @@ module Morale
     attr_accessor :credentials
     
     def location
+      ENV['CREDENTIALS_LOCATION'] || default_location
+    end
+    
+    def default_location
       "#{home_directory}/.morale/credentials"
     end
     

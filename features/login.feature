@@ -21,11 +21,40 @@ Feature: Running the login command
       Choose an account:
       """
 
+  @interactive
+  Scenario: Running login with an invalid email address should display a message that the user is invalid
+    When I run `morale login` interactively
+    And I type "someone@somewhere-else.com"
+    Then the output should contain:
+      """
+      Email is not registered.
+      """
+
+  @interactive
+  Scenario: Choosing an invalid account id should display a message that the account is invalid
+    When I run `morale login` interactively
+    And I type "jimmy@example.com"
+    And I type "9"
+    Then the output should contain:
+      """
+      Invalid account.
+      """
+
+  @interactive
+  Scenario: Choosing an invalid account id should allow for a retry
+    When I run `morale login` interactively
+    And I type "jimmy@example.com"
+    And I type "9"
+    Then the output should contain:
+      """
+      1. Spartan Design
+      Choose an account:
+      """
+
   Scenario: Running login successfully to store my authentication information
     When I run `morale login` interactively
     And I type "jimmy@example.com"
     And I type "1"
     And I type "test"
-    #Put the credentials file location in a config
-    #Then a file named "~/.morale/credentials" should exist
-    #Then the file "/.morale/credentials" should contain "spartan"
+    Then the file "credentials" should contain "spartan"
+    And the file "credentials" should contain "12345"

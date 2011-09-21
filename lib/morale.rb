@@ -1,3 +1,3 @@
 module Morale; end
 
-require 'morale/client'
+require 'morale/command'

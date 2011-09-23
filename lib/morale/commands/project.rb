@@ -5,6 +5,7 @@ require 'morale/authorization'
 module Morale::Commands
   class Project
     class << self
+      include Morale::Platform
       
       def list
         begin
@@ -14,14 +15,14 @@ module Morale::Commands
               puts "#{i += 1}. #{record['project']['name']}"
             end
           else
-            $stdout.puts "There were no projects found."; $stdout.flush
+            say "There were no projects found."
           end
         rescue Morale::Client::Unauthorized
-          $stdout.puts "Authentication failure"; $stdout.flush
+          say "Authentication failure"
           Morale::Commands::Authorization.login
           retry if Morale::Authorization.retry_login?
         rescue Morale::Client::NotFound
-          $stdout.puts "Communication failure"; $stdout.flush
+          say "Communication failure"
         end
       end
       

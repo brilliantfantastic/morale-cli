@@ -8,6 +8,20 @@ module Morale
       RUBY_PLATFORM =~ /mswin32|mingw32/
     end
     
+    def say(message="", color=nil, force_new_line=(message.to_s !~ /( |\t)$/))
+      message = message.to_s
+      message = set_color(message, color) if color
+
+      spaces = "  "
+
+      if force_new_line
+        $stdout.puts(spaces + message)
+      else
+        $stdout.print(spaces + message)
+      end
+      $stdout.flush
+    end
+    
     def ask
       input = $stdin.gets
       input.strip! unless input.nil?

@@ -8,11 +8,11 @@ gem 'thor', '0.14.6'
 
 group :test do
   gem 'diff-lcs', '1.1.3'
-  gem 'rspec', '2.5.0'
+  gem 'rspec', '2.6.0'
   gem 'webmock'
 end
 
 group :cucumber do
 	gem 'cucumber', '1.0.6'
-	gem 'aruba', '0.3.6'
+	gem 'aruba', '0.4.6'
 end

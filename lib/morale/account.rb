@@ -3,8 +3,9 @@ require 'morale/credentials_store'
 
 module Morale
   class Account
+    include Morale::Platform
+    
     class << self
-      
       include Morale::CredentialsStore
       include Morale::Flow
       
@@ -55,11 +56,11 @@ module Morale
         begin
           user = ask_for_subdomain if @subdomain.nil?
         rescue Morale::Client::NotFound
-          puts "Email is not registered."
+          say "Email is not registered."
           return
         end
         
-        puts "Sign in to Morale."
+        say "Sign in to Morale."
 
         if user.nil?
           print "Email: "
@@ -69,16 +70,16 @@ module Morale
         print "Password: "
         password = running_on_windows? ? ask_for_secret_on_windows : ask_for_secret
         api_key = Morale::Client.authorize(user, password, @subdomain).api_key
-        
-        puts "Invalid email/password combination or API key was not generated." if api_key.nil?
+
+        say "Invalid email/password combination or API key was not generated." if api_key.nil?
 
         [@subdomain, api_key]
       end
       
       def ask_for_subdomain
-        $stdout.puts "No account specified for Morale."; $stdout.flush
+        say "No account specified for Morale."
         
-        $stdout.print "Email: "; $stdout.flush
+        say "Email: "
         user = ask
 
         accounts = Morale::Client.accounts user
@@ -86,15 +87,15 @@ module Morale
         
         retryable(:indefinate => true) do
           accounts.sort{|a,b| a['account']['group_name'] <=> b['account']['group_name']}.each_with_index do |record, i|
-            $stdout.puts "#{i += 1}. #{record['account']['group_name']}"; $stdout.flush
+            say "#{i += 1}. #{record['account']['group_name']}"
           end
 
-          $stdout.print "Choose an account: "; $stdout.flush
+          say "Choose an account: "
           index = ask
           account = accounts[index.to_i - 1]
           
           if account.nil?
-            $stdout.puts "Invalid account."; $stdout.flush
+            say "Invalid account."
             raise Exception
           end
         end

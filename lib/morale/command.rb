@@ -6,6 +6,7 @@ require 'morale/commands/project'
 
 module Morale
   class Command < Thor
+    include Morale::Platform
     
     desc "login", "signs a user in using their email address and password. Stores the users API key locally to use for access later."
     def login

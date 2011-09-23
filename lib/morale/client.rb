@@ -42,7 +42,7 @@ module Morale
       @api_key = api_key
       @subdomain = subdomain
       #TODO: Save the domain in a config file
-      self.class.default_options[:base_uri] = HTTParty.normalize_base_uri("#{subdomain}#{"." unless subdomain.blank?}lvh.me:3000/api/#{API_VERSION}")
+      self.class.default_options[:base_uri] = HTTParty.normalize_base_uri("#{subdomain}#{"." unless subdomain.nil? || subdomain.empty?}lvh.me:3000/api/#{API_VERSION}")
     end
     
     def projects

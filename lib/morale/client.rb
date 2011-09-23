@@ -30,6 +30,14 @@ module Morale
       response
     end
     
+    def accounts
+      authorize
+      response = self.class.get("/accounts", :query => { :api_key => @api_key })
+      raise Unauthorized if response.code == 401
+      raise NotFound if response.code == 404
+      response
+    end
+    
     def initialize(subdomain="", api_key="")
       @api_key = api_key
       @subdomain = subdomain
@@ -41,6 +49,7 @@ module Morale
       authorize
       response = self.class.get('/projects')
       raise Unauthorized if response.code == 401
+      raise NotFound if response.code == 404
       response
     end
     

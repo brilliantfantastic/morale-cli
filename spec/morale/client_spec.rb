@@ -12,13 +12,23 @@ describe Morale::Client do
   end
   
   describe "#accounts" do
-    it "displays all the accounts for a specific user" do
+    it "displays all the accounts for a specific user based on their email" do
       stub_request(:get, "http://lvh.me:3000/api/v1/accounts?email=someone@example.com").to_return(:body => 
         [{"account" => {"group_name" => "Shimmy Sham","site_address"=>"shimmy_sham","created_at" => "2011-07-31T21:28:53Z","updated_at" => "2011-07-31T21:28:53Z","plan_id" => 1,"id" => 2}},
          {"account" => {"group_name" => "Pumpkin Tarts","site_address"=>"pumpkin_tarts","created_at" => "2011-07-31T21:40:24Z","updated_at" => "2011-07-31T21:40:24Z","plan_id" => 1,"id" => 1}}].to_json)
          
       accounts = Morale::Client.accounts('someone@example.com')
       accounts.count.should == 2
+    end
+    
+    it "displays all the accounts for a specific user based on their api_key" do
+      stub_request(:get, "http://blah:@blah.lvh.me:3000/api/v1/accounts?api_key=").to_return(:body => 
+        [{"account" => {"group_name" => "Shimmy Sham","site_address"=>"shimmy_sham","created_at" => "2011-07-31T21:28:53Z","updated_at" => "2011-07-31T21:28:53Z","plan_id" => 1,"id" => 2}},
+         {"account" => {"group_name" => "Pumpkin Tarts","site_address"=>"pumpkin_tarts","created_at" => "2011-07-31T21:40:24Z","updated_at" => "2011-07-31T21:40:24Z","plan_id" => 1,"id" => 1}}].to_json)
+      
+      client = Morale::Client.new('blah')   
+      client.accounts.count.should == 2
+      client.accounts[0]["account"]["group_name"].should == "Shimmy Sham"
     end
   end
   

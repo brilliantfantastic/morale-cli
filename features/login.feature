@@ -3,6 +3,9 @@ Feature: Running the login command
   As a command line user of Morale
   I should be able to run login to store my authentication information locally
 
+#  Background:
+#    Given in service reports api_key: "12345" for email: "jimmy@example.com", password: "test", subdomain: "spartan"
+
   @interactive
   Scenario: Running login should ask for the account information
     When I run `morale login` interactively

@@ -8,17 +8,17 @@ module Morale
   class Command < Thor
     include Morale::Platform
     
-    desc "login", "signs a user in using their email address and password. Stores the users API key locally to use for access later."
+    desc "login", "Signs a user in using their email address and password. Stores the users API key locally to use for access later."
     def login
       Morale::Commands::Authorization.login
     end
     
-    desc "accounts EMAIL(optional)", "gets all the subdomains available for a given email address if provided, else it uses the current api key."    
+    desc "accounts EMAIL(optional)", "Gets all the subdomains available for a given email address if provided, else it uses the current api key."    
     def accounts(email="")
       Morale::Commands::Account.list email
     end
     
-    desc "projects", "lists the projects available to the user."
+    desc "projects", "Lists the projects available to the user."
     def projects
       Morale::Commands::Project.list
     end

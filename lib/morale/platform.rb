@@ -12,7 +12,7 @@ module Morale
       message = message.to_s
       message = set_color(message, color) if color
 
-      spaces = "  "
+      spaces = ""
 
       if force_new_line
         $stdout.puts(spaces + message)

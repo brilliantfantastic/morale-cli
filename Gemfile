@@ -14,5 +14,5 @@ end
 
 group :cucumber do
 	gem 'cucumber', '1.0.6'
-	gem 'aruba', '0.4.6'
+	gem 'aruba', '0.3.6'
 end

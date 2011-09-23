@@ -63,11 +63,11 @@ module Morale
         say "Sign in to Morale."
 
         if user.nil?
-          print "Email: "
+          say "Email: "
           user = ask
         end
 
-        print "Password: "
+        say "Password: "
         password = running_on_windows? ? ask_for_secret_on_windows : ask_for_secret
         api_key = Morale::Client.authorize(user, password, @subdomain).api_key
 

@@ -21,6 +21,7 @@ Feature: Running the login command
     Then the output should contain:
       """
       1. Spartan Design
+      2. Wolverine Pictures
 	  Choose an account:
       """
 
@@ -51,6 +52,7 @@ Feature: Running the login command
     Then the output should contain:
       """
       1. Spartan Design
+      2. Wolverine Pictures
       Choose an account:
       """
 

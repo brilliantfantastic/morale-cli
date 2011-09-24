@@ -53,3 +53,36 @@ Feature: Running the accounts command
       """
       Authentication failure
       """
+
+  @interactive
+  Scenario: Running account id should change the account
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      """
+    When I run `morale account 2` interactively
+    Then the file "credentials" should contain exactly:
+      """
+      wolverine
+      12345
+
+      """
+
+  @interactive
+  Scenario: Running account id with an invalid id should should mention that there is an invalid account
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      """
+    When I run `morale account 9` interactively
+    Then the output should contain:
+      """
+      Invalid account.
+      """
+    And the file "credentials" should contain exactly:
+      """
+      spartan
+      12345
+      """

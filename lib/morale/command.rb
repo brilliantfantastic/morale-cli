@@ -19,6 +19,11 @@ module Morale
       Morale::Commands::Account.list email, options.change
     end
     
+    desc "accounts ID", "Changes the current account to the numeric identifier of the account specified."    
+    def account(id)
+      Morale::Commands::Account.select id
+    end
+    
     desc "projects", "Lists the projects available to the user and the current account."
     method_options :change => false
     def projects

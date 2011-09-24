@@ -39,6 +39,23 @@ module Morale::Commands
         end
       end
       
+      def select(id)
+        begin
+          accounts = Morale::Command.client.accounts
+          if !accounts.nil?
+            account = accounts[id.to_i - 1]
+            if account.nil?
+              say "Invalid account."
+            end
+            Morale::Account.subdomain = account['account']['site_address'] unless account.nil?
+          else
+            say "There were no accounts found."
+          end
+        rescue Morale::Client::Unauthorized, Morale::Client::NotFound
+          say "Authentication failure"
+          Morale::Commands::Authorization.login
+        end
+      end
     end
   end
 end

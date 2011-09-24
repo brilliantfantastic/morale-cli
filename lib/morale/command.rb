@@ -41,5 +41,13 @@ module Morale
       end
     end
     
+    no_tasks do
+      def self.handle_no_task_error(task, has_namespace = $thor_runner) #:nodoc:
+        #TODO: We can now call bug, ticket, or task with the task passed in
+        puts "You found some shit: #{task} with arguments #{ARGV.inspect}"
+        puts "Flattened arguments #{ARGV.compact.join(" ").inspect}"
+      end
+    end
+    
   end
 end

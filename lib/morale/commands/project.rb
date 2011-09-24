@@ -37,6 +37,27 @@ module Morale::Commands
         end
       end
       
+      def select(id)
+        begin
+          projects = Morale::Command.client.projects
+          if !projects.nil?
+            project = projects[id.to_i - 1]
+            if project.nil?
+              say "Invalid project."
+            end
+            Morale::Account.project = project['project']['id'] unless project.nil?
+          else
+            say "There were no projects found."
+          end
+        rescue Morale::Client::Unauthorized
+          say "Authentication failure"
+          Morale::Commands::Authorization.login
+          retry if Morale::Authorization.retry_login?
+        rescue Morale::Client::NotFound
+          say "Communication failure"
+        end
+      end
+      
     end
   end
 end

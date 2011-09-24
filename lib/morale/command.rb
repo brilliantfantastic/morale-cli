@@ -30,6 +30,11 @@ module Morale
       Morale::Commands::Project.list options.change
     end
     
+    desc "projects ID", "Changes the current project to the numeric identifier of the project specified."    
+    def project(id)
+      Morale::Commands::Project.select id
+    end
+    
     class << self
       def client
         Morale::Authorization.client

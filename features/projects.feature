@@ -71,3 +71,40 @@ Feature: Running the projects command
       """
       Authentication failure
       """
+
+  @interactive
+  Scenario: Running project id should change the project
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      1
+      """
+    When I run `morale project 1` interactively
+    Then the file "credentials" should contain exactly:
+      """
+      spartan
+      12345
+      2
+
+      """
+
+  @interactive
+  Scenario: Running project id with an invalid id should should mention that there is an invalid project
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      1
+      """
+    When I run `morale project 9` interactively
+    Then the output should contain:
+      """
+      Invalid project.
+      """
+    And the file "credentials" should contain exactly:
+      """
+      spartan
+      12345
+      1
+      """

@@ -31,6 +31,37 @@ Feature: Running the projects command
       """
 
   @interactive
+  Scenario: Running projects with the --change option should save the current project
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      """
+    When I run `morale projects --change` interactively
+    And I type "2"
+    Then the file "credentials" should contain exactly:
+      """
+      spartan
+      12345
+      1
+
+      """
+
+  @interactive
+  Scenario: Selecting an invalid project when running projects with the --change option should mention that there is an invalid project
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      """
+    When I run `morale projects --change` interactively
+    And I type "9"
+    Then the output should contain:
+      """
+      Invalid project.
+      """
+
+  @interactive
   Scenario: Running projects without being authorized should ask for credentials
     Given a file named "credentials" with:
       """

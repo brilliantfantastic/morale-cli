@@ -23,7 +23,7 @@ module Morale::Commands
               if project.nil?
                 say "Invalid project."
               end
-              #TODO: Morale::Account.subdomain = account['account']['site_address'] unless account.nil?
+              Morale::Account.project = project['project']['id'] unless project.nil?
             end
           else
             say "There were no projects found."

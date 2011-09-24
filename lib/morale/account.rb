@@ -29,6 +29,16 @@ module Morale
         @credentials[1]
       end
       
+      def project
+        @credentials[2] if !@credentials.nil? && @credentials.length > 2
+      end
+      
+      def project=(value)
+        @credentials ||= Array.new(3)
+        @credentials[2] = value
+        write_credentials
+      end
+      
       def retry_login?
         @login_attempts ||= 0
         @login_attempts += 1

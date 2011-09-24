@@ -85,6 +85,7 @@ module Morale
         accounts = Morale::Client.accounts user
         account = nil
         
+        #TODO: This is the same as the account.list --change
         retryable(:indefinate => true) do
           accounts.sort{|a,b| a['account']['group_name'] <=> b['account']['group_name']}.each_with_index do |record, i|
             say "#{i += 1}. #{record['account']['group_name']}"

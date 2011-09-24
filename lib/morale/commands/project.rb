@@ -7,12 +7,23 @@ module Morale::Commands
     class << self
       include Morale::Platform
       
-      def list
+      def list(change=false)
         begin
           projects = Morale::Command.client.projects
           if !projects.nil?
             projects.sort{|a,b| a['project']['name'] <=> b['project']['name']}.each_with_index do |record, i|
               puts "#{i += 1}. #{record['project']['name']}"
+            end
+            
+            if change
+              say "Choose a project: "
+              index = ask
+              project = projects[index.to_i - 1]
+              
+              if project.nil?
+                say "Invalid project."
+              end
+              #TODO: Morale::Account.subdomain = account['account']['site_address'] unless account.nil?
             end
           else
             say "There were no projects found."

@@ -13,14 +13,16 @@ module Morale
       Morale::Commands::Authorization.login
     end
     
-    desc "accounts EMAIL(optional)", "Gets all the subdomains available for a given email address if provided, else it uses the current api key."    
+    desc "accounts [EMAIL]", "Gets all the subdomains available for a given email address if provided, else it uses the current api key."    
+    method_options :change => false
     def accounts(email="")
-      Morale::Commands::Account.list email
+      Morale::Commands::Account.list email, options.change
     end
     
-    desc "projects", "Lists the projects available to the user."
+    desc "projects", "Lists the projects available to the user and the current account."
+    method_options :change => false
     def projects
-      Morale::Commands::Project.list
+      Morale::Commands::Project.list options.change
     end
     
     class << self

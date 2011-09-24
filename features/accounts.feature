@@ -17,6 +17,33 @@ Feature: Running the accounts command
       """
 
   @interactive
+  Scenario: Running accounts with the --change option should ask me to change the account
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      """
+    When I run `morale accounts --change` interactively
+    Then the output should contain:
+      """
+      Choose an account:
+      """
+
+  @interactive
+  Scenario: Selecting an invalid account when running accounts with the --change option should mention that there is an invalid account
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      """
+    When I run `morale accounts --change` interactively
+    And I type "9"
+    Then the output should contain:
+      """
+      Invalid account.
+      """
+
+  @interactive
   Scenario: Running accounts without being authorized should ask for credentials
     Given a file named "credentials" with:
       """

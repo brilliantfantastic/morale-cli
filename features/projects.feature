@@ -18,6 +18,19 @@ Feature: Running the projects command
       """
 
   @interactive
+  Scenario: Running projects with the --change option should ask me to change the project
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      """
+    When I run `morale projects --change` interactively
+    Then the output should contain:
+      """
+      Choose a project:
+      """
+
+  @interactive
   Scenario: Running projects without being authorized should ask for credentials
     Given a file named "credentials" with:
       """

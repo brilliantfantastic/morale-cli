@@ -49,4 +49,44 @@ describe Morale::Client do
       lambda { client.projects.count }.should raise_error(Morale::Client::Unauthorized)
     end
   end
+  
+  describe "#ticket" do
+    it "should return a JSON ticket that was created" do
+      stub_request(:post, "http://blah:@blah.lvh.me:3000/api/v1/projects/1/tickets").
+        with(:body => "command=This%20is%20a%20test%20that%20should%20create%20a%20new%20task%20as%3A%20Lester").
+        to_return(:body => { 
+          "created_at" => "2011-09-27T02:56:03Z",
+          "assigned_to" => { "user" => { "first_name" => "Lester", "last_name" => "Tester", "email" => "test@test.com" } },
+          "title" => "This is a test that should create a new task",
+          "project_id" => "1",
+          "priority" => "null",
+          "archived" => "false",
+          "id" => "1",
+          "created_by" => { "user" => { "first_name" => "Lester", "last_name" => "Tester", "email" => "test@test.com" } },
+          "due_date" => "null",
+          "identifier" => "1" }.to_json
+      )
+      client = Morale::Client.new('blah', '123456')
+      response = client.ticket(1, "This is a test that should create a new task as: Lester")
+      response['title'].should == "This is a test that should create a new task"
+      response['assigned_to']['user']['first_name'].should == "Lester"
+      response['project_id'].should == "1"
+    end
+    
+    it "should raise unauthorized if a 401 is received" do
+      stub_request(:post, "http://blah:@blah.lvh.me:3000/api/v1/projects/1/tickets").
+        with(:body => "command=This%20is%20a%20test%20that%20should%20create%20a%20new%20task%20as%3A%20Lester").
+        to_return(:status => 401)
+      client = Morale::Client.new('blah', '123456')
+      lambda { client.ticket('1', "This is a test that should create a new task as: Lester") }.should raise_error(Morale::Client::Unauthorized)
+    end
+    
+    it "should raise notfound if a 404 is received" do
+      stub_request(:post, "http://blah:@blah.lvh.me:3000/api/v1/projects/1/tickets").
+        with(:body => "command=This%20is%20a%20test%20that%20should%20create%20a%20new%20task%20as%3A%20Lester").
+        to_return(:status => 404)
+      client = Morale::Client.new('blah', '123456')
+      lambda { client.ticket('1', "This is a test that should create a new task as: Lester") }.should raise_error(Morale::Client::NotFound)
+    end
+  end
 end

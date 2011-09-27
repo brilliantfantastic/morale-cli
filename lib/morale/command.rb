@@ -3,6 +3,7 @@ require 'thor'
 require 'morale/commands/account'
 require 'morale/commands/authorization'
 require 'morale/commands/project'
+require 'morale/commands/ticket'
 
 module Morale
   class Command < Thor
@@ -35,6 +36,15 @@ module Morale
       Morale::Commands::Project.select id
     end
     
+    desc "ticket COMMAND", "Creates, updates, or deletes a ticket based on the command specified."
+    method_option :command, :aliases => "-c", :type => :array, :desc => "Specify -c without putting the parameter in a string"
+    def ticket(command="")
+      if command.empty? && !options[:command].nil?
+        command = options[:command].compact.join(" ")
+      end
+      Morale::Commands::Ticket.command command
+    end
+    
     class << self
       def client
         Morale::Authorization.client
@@ -43,9 +53,7 @@ module Morale
     
     no_tasks do
       def self.handle_no_task_error(task, has_namespace = $thor_runner) #:nodoc:
-        #TODO: We can now call bug, ticket, or task with the task passed in
-        puts "You found some shit: #{task} with arguments #{ARGV.inspect}"
-        puts "Flattened arguments #{ARGV.compact.join(" ").inspect}"
+        self.new.ticket ARGV.compact.join(" ")
       end
     end
     

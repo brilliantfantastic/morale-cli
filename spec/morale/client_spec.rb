@@ -52,7 +52,7 @@ describe Morale::Client do
   
   describe "#ticket" do
     it "should return a JSON ticket that was created" do
-      stub_request(:post, "http://blah:@blah.lvh.me:3000/api/v1/projects/1/tickets").
+      stub_request(:post, "http://blah:123456@blah.lvh.me:3000/api/v1/projects/1/tickets").
         with(:body => "command=This%20is%20a%20test%20that%20should%20create%20a%20new%20task%20as%3A%20Lester").
         to_return(:body => { 
           "created_at" => "2011-09-27T02:56:03Z",
@@ -74,7 +74,7 @@ describe Morale::Client do
     end
     
     it "should raise unauthorized if a 401 is received" do
-      stub_request(:post, "http://blah:@blah.lvh.me:3000/api/v1/projects/1/tickets").
+      stub_request(:post, "http://blah:123456@blah.lvh.me:3000/api/v1/projects/1/tickets").
         with(:body => "command=This%20is%20a%20test%20that%20should%20create%20a%20new%20task%20as%3A%20Lester").
         to_return(:status => 401)
       client = Morale::Client.new('blah', '123456')
@@ -82,7 +82,7 @@ describe Morale::Client do
     end
     
     it "should raise notfound if a 404 is received" do
-      stub_request(:post, "http://blah:@blah.lvh.me:3000/api/v1/projects/1/tickets").
+      stub_request(:post, "http://blah:123456@blah.lvh.me:3000/api/v1/projects/1/tickets").
         with(:body => "command=This%20is%20a%20test%20that%20should%20create%20a%20new%20task%20as%3A%20Lester").
         to_return(:status => 404)
       client = Morale::Client.new('blah', '123456')

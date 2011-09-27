@@ -57,6 +57,7 @@ module Morale
     end
     
     def ticket(project_id, command)
+      authorize
       response = self.class.post("/projects/#{project_id}/tickets", :body => { :command => command })
       raise Unauthorized if response.code == 401
       raise NotFound if response.code == 404

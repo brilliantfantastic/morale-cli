@@ -4,10 +4,10 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.rubygems_version = '1.3.5'
 
-  s.name              = 'NAME'
-  s.version           = '0.0'
-  s.date              = '2010-01-01'
-  s.rubyforge_project = 'NAME'
+  s.name              = 'morale'
+  s.version           = '0.1.0'
+  s.date              = '2011-09-29'
+  s.rubyforge_project = 'morale'
 
   s.summary     = "Command line interface to create & manage tickets on Morale."
   s.description = "Client library and command-line tool to manage tickets and control your account on Morale."
@@ -33,6 +33,38 @@ Gem::Specification.new do |s|
   ## contents of your Git repository via the gemspec task. DO NOT REMOVE
   ## THE MANIFEST COMMENTS, they are used as delimiters by the task.
   # = MANIFEST =
-  s.files = %w[]
+  s.files = %w[
+    Gemfile
+    Gemfile.lock
+    LICENSE
+    README.md
+    Rakefile
+    bin/morale
+    features/accounts.feature
+    features/login.feature
+    features/projects.feature
+    features/step_definitions/models.rb
+    features/support/env.rb
+    features/support/hooks.rb
+    features/tickets.feature
+    lib/morale.rb
+    lib/morale/account.rb
+    lib/morale/authorization.rb
+    lib/morale/client.rb
+    lib/morale/command.rb
+    lib/morale/commands/account.rb
+    lib/morale/commands/authorization.rb
+    lib/morale/commands/project.rb
+    lib/morale/commands/ticket.rb
+    lib/morale/credentials_store.rb
+    lib/morale/flow.rb
+    lib/morale/platform.rb
+    morale.gemspec
+    spec/morale/account_spec.rb
+    spec/morale/client_spec.rb
+    spec/morale/command_spec.rb
+    spec/morale/credentials_store_spec.rb
+    spec/spec_helper.rb
+  ]
   # = MANIFEST =
 end

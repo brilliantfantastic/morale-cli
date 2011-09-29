@@ -14,5 +14,13 @@ Feature: Running the tickets command
     When I run `morale ticket "task: This is a new task as: Jimmy"` interactively
     Then the output should contain:
       """
-      task	This is a new task
+      Task
+      """
+    And the output should contain:
+      """
+      This is a new task
+      """
+    And the output should contain:
+      """
+      Jimmy P.
       """

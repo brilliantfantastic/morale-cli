@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.3.5'
 
   s.name              = 'morale'
-  s.version           = '0.1.0'
-  s.date              = '2011-09-29'
+  s.version           = '0.1.1'
+  s.date              = '2011-09-30'
   s.rubyforge_project = 'morale'
 
   s.summary     = "Command line interface to create & manage tickets on Morale."
@@ -56,14 +56,18 @@ Gem::Specification.new do |s|
     lib/morale/commands/authorization.rb
     lib/morale/commands/project.rb
     lib/morale/commands/ticket.rb
+    lib/morale/connection_store.rb
     lib/morale/credentials_store.rb
     lib/morale/flow.rb
     lib/morale/platform.rb
+    lib/morale/storage.rb
     morale.gemspec
     spec/morale/account_spec.rb
     spec/morale/client_spec.rb
     spec/morale/command_spec.rb
+    spec/morale/connection_store_spec.rb
     spec/morale/credentials_store_spec.rb
+    spec/morale/storage_spec.rb
     spec/spec_helper.rb
   ]
   # = MANIFEST =

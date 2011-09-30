@@ -8,8 +8,11 @@ module Morale
     
     def base_url
       if @base_url.nil?
-        @base_url = default_base_url
-        self.write_connection
+        @base_url = read_connection
+        if @base_url.nil?
+          @base_url = default_base_url
+          self.write_connection
+        end
       end
       @base_url
     end

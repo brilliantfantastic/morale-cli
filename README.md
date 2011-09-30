@@ -19,7 +19,7 @@ The first time you run a command, you will be prompted for your email address, p
 Available Commands
 ------------------
 
-	The same commands that are available on the web application are available within the CLI gem.
+The same commands that are available on the web application are available within the CLI gem.
 
 	morale login		# Asks for your email address and password for your Morale account and pulls down your API key
 	morale accounts		# Displays a list of accounts for your email address and password

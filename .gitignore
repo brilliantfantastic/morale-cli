@@ -1,6 +1,5 @@
 .bundle
 coverage
-pkg
 rdoc
 .rvmrc
 tags

@@ -30,6 +30,8 @@ The same commands that are available on the web application are available within
 	
 	morale This is a test task assign: Jamie due: today		# Task with the title "This is a test task" assigned to Jamie W. with a due 				date of today
 	morale #35: assign: Robert								# Updates ticket #35 by assigning it to Robert
+	morale a #2												# Archives ticket #2
+	morale d #41											# Deletes ticket #41
 
 
 Released under the [MIT license](http://www.opensource.org/licenses/mit-license.php).

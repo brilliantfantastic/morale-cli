@@ -6,7 +6,11 @@ require "webmock/rspec"
 
 require "stringio"
 
+require "morale/client"
+
 RSpec.configure do |config|
+  Morale::Client.base_url = "lvh.me:3000"
+  
   def process(stdin_str = '')
     begin
       require 'stringio'

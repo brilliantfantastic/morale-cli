@@ -1,7 +1,9 @@
+require 'morale/storage'
 require 'morale/platform'
 
 module Morale
   module CredentialsStore
+    include Morale::Storage
     include Morale::Platform
     
     attr_accessor :credentials
@@ -10,32 +12,26 @@ module Morale
       ENV['CREDENTIALS_LOCATION'] || default_location
     end
     
+    def location=(value)
+      ENV['CREDENTIALS_LOCATION'] = value
+    end
+    
     def default_location
       "#{home_directory}/.morale/credentials"
     end
     
     def read_credentials
-      File.exists?(location) and File.read(location).split("\n")
+      creds = self.read
+      creds.split("\n") if creds
     end
     
     def write_credentials
-      FileUtils.mkdir_p(File.dirname(location))
-      f = File.open(location, 'w')
-      f.puts self.credentials
-      f.close
-      set_credentials_permissions
+      self.write self.credentials
     end
     
     def delete_credentials
-      FileUtils.rm_f(location)
+      self.delete
       @credentials = nil
-    end
-    
-    private
-    
-    def set_credentials_permissions
-      FileUtils.chmod 0700, File.dirname(location)
-      FileUtils.chmod 0600, location
     end
   end
 end

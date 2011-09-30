@@ -1,5 +1,7 @@
 require 'httparty'
-require "json"
+require 'json'
+require 'morale/account'
+require 'morale/connection_store'
 
 module Morale
   class Client
@@ -7,6 +9,8 @@ module Morale
     class NotFound < RuntimeError; end
     
     include HTTParty
+    extend Morale::ConnectionStore
+    
     format :json
     
     API_VERSION = 'v1'
@@ -41,8 +45,7 @@ module Morale
     def initialize(subdomain="", api_key="")
       @api_key = api_key
       @subdomain = subdomain
-      #TODO: Save the domain in a config file
-      self.class.default_options[:base_uri] = HTTParty.normalize_base_uri("#{subdomain}#{"." unless subdomain.nil? || subdomain.empty?}lvh.me:3000/api/#{API_VERSION}")
+      self.class.default_options[:base_uri] = HTTParty.normalize_base_uri("#{subdomain}#{"." unless subdomain.nil? || subdomain.empty?}#{self.class.base_url}/api/#{API_VERSION}")
     end
     
     def projects

@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.3.5'
 
   s.name              = 'morale'
-  s.version           = '0.1.1'
-  s.date              = '2011-09-30'
+  s.version           = '0.1.2'
+  s.date              = '2011-10-01'
   s.rubyforge_project = 'morale'
 
   s.summary     = "Command line interface to create & manage tickets on Morale."

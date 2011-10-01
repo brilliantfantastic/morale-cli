@@ -30,6 +30,7 @@ module Morale
       end
       
       def project
+        get_credentials
         @credentials[2] if !@credentials.nil? && @credentials.length > 2
       end
       

@@ -26,6 +26,19 @@ Feature: Running the tickets command
       """
 
   @interactive
+  Scenario: Posting a ticket without a project should ask for a project
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      """
+    When I run `morale ticket "task: This is a new task as: Jimmy"` interactively
+    Then the output should contain:
+      """
+      No project specified.
+      """
+
+  @interactive
   Scenario: Running tickets should return a list of all active tickets
     Given a file named "credentials" with:
       """
@@ -45,4 +58,17 @@ Feature: Running the tickets command
     And the output should contain:
       """
       Create icon for list view
+      """
+
+  @interactive
+  Scenario: Running tickets without a project should ask for a project
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      """
+    When I run `morale tickets` interactively
+    Then the output should contain:
+      """
+      No project specified.
       """

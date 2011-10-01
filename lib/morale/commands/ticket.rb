@@ -1,22 +1,35 @@
 require 'morale/client'
 require 'morale/command'
 require 'morale/authorization'
+require 'morale/flow'
 require 'hirb'
 
 module Morale::Commands
   class Ticket
     class << self
       include Morale::Platform
+      include Morale::Flow
       
       def command(command)
-        print Morale::Command.client.ticket(Morale::Account.project, command)
+        ask_for_project
+        print Morale::Command.client.ticket(Morale::Account.project, command) unless Morale::Account.project.nil?
       end
       
       def list
-        print Morale::Command.client.tickets({ :project_id => Morale::Account.project })
+        ask_for_project
+        print Morale::Command.client.tickets({ :project_id => Morale::Account.project }) unless Morale::Account.project.nil?
       end
       
       private
+      
+      def ask_for_project
+        if Morale::Account.project.nil?
+          say "No project specified."
+          retryable(:retries => 1) do
+            Morale::Commands::Project.list true
+          end
+        end
+      end
       
       def print(tickets)
         say Hirb::Helpers::Table.render fetch(tickets), 

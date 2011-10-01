@@ -45,13 +45,9 @@ module Morale
       Morale::Commands::Ticket.command command
     end
     
-    desc "test", "Testing the ticket output."
-    def test
-      say "+-----+------+-----------------------------------------------------------------------------------------+----------------+----------+----------------+----------+"
-      say "| id  | type | title                                                                                   | created by     | due date | assigned to    | priority |"
-      say "+-----+------+-----------------------------------------------------------------------------------------+----------------+----------+----------------+----------+"
-      say "| 123 | task | hbsdbjhsdjhfdsjfhsdjfhsdjfhsdjfhsdf                                                     | Jimmy P.       | 08/08/11 | Robert P.      | 1        |"
-      say "+-----+------+-----------------------------------------------------------------------------------------+----------------+----------+----------------+----------+"
+    desc "tickets", "Lists all the projects tickets."
+    def tickets
+      Morale::Commands::Ticket.list
     end
     
     class << self

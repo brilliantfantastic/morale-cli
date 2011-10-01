@@ -57,6 +57,11 @@ module Morale
     end
     
     def tickets(options={})
+      authorize
+      response = self.class.get("/projects/#{options[:project_id]}/tickets")
+      raise Unauthorized if response.code == 401
+      raise NotFound if response.code == 404
+      response
     end
     
     def ticket(project_id, command)

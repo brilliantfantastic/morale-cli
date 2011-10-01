@@ -89,4 +89,31 @@ describe Morale::Client do
       lambda { client.ticket('1', "This is a test that should create a new task as: Lester") }.should raise_error(Morale::Client::NotFound)
     end
   end
+  
+  describe "#tickets" do
+    it "should return all active tickets when no options are specified" do
+      stub_request(:get, "http://blah:123456@blah.lvh.me:3000/api/v1/projects/1/tickets").to_return(:body => 
+        [{"ticket" => {"title" => "This is test #1","created_at" => "2011-07-31T21:40:24Z","updated_at" => "2011-07-31T21:40:24Z","project_id" => 1,"id" => 1,"identifier" => "1","type" => "Task","due_date" => "2011-10-15 16:00:00.000000","priority" => nil,"archived" => "f"}},
+         {"ticket" => {"title" => "This is test #2","created_at" => "2011-07-31T21:28:53Z","updated_at" => "2011-07-31T21:28:53Z","project_id" => 1,"id" => 2, "identifier" => "2","type" => "Bug","due_date" => nil,"priority" => "2","archived" => "f"}}].to_json)
+      client = Morale::Client.new('blah', '123456')
+      response = client.tickets({:project_id => 1})
+      response.count.should == 2
+      response[0]["ticket"]["title"].should == "This is test #1"
+      response[1]["ticket"]["title"].should == "This is test #2"
+    end
+    
+    it "should raise unauthorized if a 401 is received" do
+      stub_request(:get, "http://blah:123456@blah.lvh.me:3000/api/v1/projects/1/tickets").
+        to_return(:status => 401)
+      client = Morale::Client.new('blah', '123456')
+      lambda { client.tickets({:project_id => 1}) }.should raise_error(Morale::Client::Unauthorized)
+    end
+    
+    it "should raise notfound if a 404 is received" do
+      stub_request(:get, "http://blah:123456@blah.lvh.me:3000/api/v1/projects/1/tickets").
+        to_return(:status => 404)
+      client = Morale::Client.new('blah', '123456')
+      lambda { client.tickets({ :project_id => 1 }) }.should raise_error(Morale::Client::NotFound)
+    end
+  end
 end

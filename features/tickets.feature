@@ -4,7 +4,7 @@ Feature: Running the tickets command
   I should be able to run tickets to view, create, update, and delete tickets
 
   @interactive
-  Scenario: Running projects should not require authorization if the account and api key are stored
+  Scenario: Posting a ticket should return the ticket results
     Given a file named "credentials" with:
       """
       spartan
@@ -23,4 +23,26 @@ Feature: Running the tickets command
     And the output should contain:
       """
       Jimmy P.
+      """
+
+  @interactive
+  Scenario: Running tickets should return a list of all active tickets
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      1
+      """
+    When I run `morale tickets` interactively
+    Then the output should contain:
+      """
+      Task
+      """
+    And the output should contain:
+      """
+      Refactor user signup code
+      """
+    And the output should contain:
+      """
+      Create icon for list view
       """

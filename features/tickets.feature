@@ -39,6 +39,21 @@ Feature: Running the tickets command
       """
 
   @interactive
+  Scenario: Deleting a ticket should return the ticket results
+    Given a file named "credentials" with:
+      """
+      spartan
+      12345
+      1
+      """
+    When I run `morale This should be deleted`
+    And I run `morale "d #10"` interactively
+    Then the output should contain:
+      """
+      This should be deleted
+      """
+
+  @interactive
   Scenario: Running tickets should return a list of all active tickets
     Given a file named "credentials" with:
       """

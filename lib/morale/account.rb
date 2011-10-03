@@ -9,9 +9,9 @@ module Morale
       include Morale::CredentialsStore
       include Morale::Flow
       
-      def subdomain
+      def subdomain(ask=true)
         if @subdomain.nil?
-          get_credentials
+          get_credentials ask
           @subdomain = @credentials[0]
         end
         @subdomain
@@ -29,8 +29,8 @@ module Morale
         @credentials[1]
       end
       
-      def project
-        get_credentials
+      def project(ask=true)
+        get_credentials ask
         @credentials[2] if !@credentials.nil? && @credentials.length > 2
       end
       
@@ -46,10 +46,10 @@ module Morale
         @login_attempts < 3
       end
       
-      def get_credentials
+      def get_credentials(ask=true)
         return if @credentials
         unless @credentials = read_credentials
-          ask_for_and_save_credentials
+          ask_for_and_save_credentials if ask
         end
         @credentials
       end

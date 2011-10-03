@@ -57,7 +57,7 @@ module Morale
     end
     
     no_tasks do
-      def self.handle_no_task_error(task, has_namespace = $thor_runner) #:nodoc:
+      def self.handle_no_task_error(task, has_namespace = $thor_runner)
         self.new.ticket ARGV.compact.join(" ")
       end
     end

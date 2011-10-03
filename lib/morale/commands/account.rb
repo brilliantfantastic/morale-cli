@@ -16,7 +16,7 @@ module Morale::Commands
 
           if !accounts.nil?
             accounts.sort{|a,b| a['account']['group_name'] <=> b['account']['group_name']}.each_with_index do |record, i|
-              say "#{i += 1}. #{record['account']['group_name']}"
+              say "#{i += 1}. #{record['account']['group_name']}#{' *' if Morale::Account.subdomain(false) == record['account']['site_address']}"
             end
             
             if change

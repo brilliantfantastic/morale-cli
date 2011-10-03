@@ -11,13 +11,29 @@ module Morale::Commands
       include Morale::Flow
       
       def command(command)
-        ask_for_project
-        print Morale::Command.client.ticket(Morale::Account.project, command) unless Morale::Account.project.nil?
+        begin
+          ask_for_project
+          print Morale::Command.client.ticket(Morale::Account.project, command) unless Morale::Account.project.nil?
+        rescue Morale::Client::Unauthorized
+          say "Authentication failure"
+          Morale::Commands::Authorization.login
+          retry if Morale::Authorization.retry_login?
+        rescue Morale::Client::NotFound
+          say "Communication failure"
+        end
       end
       
       def list
-        ask_for_project
-        print Morale::Command.client.tickets({ :project_id => Morale::Account.project }) unless Morale::Account.project.nil?
+        begin
+          ask_for_project
+          print Morale::Command.client.tickets({ :project_id => Morale::Account.project }) unless Morale::Account.project.nil?
+        rescue Morale::Client::Unauthorized
+          say "Authentication failure"
+          Morale::Commands::Authorization.login
+          retry if Morale::Authorization.retry_login?
+        rescue Morale::Client::NotFound
+          say "Communication failure"
+        end
       end
       
       private

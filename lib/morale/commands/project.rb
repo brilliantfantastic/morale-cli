@@ -12,7 +12,7 @@ module Morale::Commands
           projects = Morale::Command.client.projects
           if !projects.nil?
             projects.sort{|a,b| a['project']['name'] <=> b['project']['name']}.each_with_index do |record, i|
-              puts "#{i += 1}. #{record['project']['name']}"
+              puts "#{i += 1}. #{record['project']['name']}#{' *' if Morale::Account.project(false) == record['project']['id'].to_s}"
             end
             
             if change

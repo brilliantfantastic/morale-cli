@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.3.5'
 
   s.name              = 'morale'
-  s.version           = '1.1.0'
+  s.version           = '1.1.1'
   s.date              = '2011-12-12'
   s.rubyforge_project = 'morale'
 

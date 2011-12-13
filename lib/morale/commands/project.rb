@@ -5,7 +5,7 @@ require 'morale/authorization'
 module Morale::Commands
   class Project
     class << self
-      include Morale::Platform
+      include Morale::IO
       
       def list(change=false)
         begin

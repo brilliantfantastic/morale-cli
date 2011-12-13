@@ -1,10 +1,12 @@
 require 'morale/storage'
 require 'morale/platform'
+require 'morale/io'
 
 module Morale
   module CredentialsStore
     include Morale::Storage
     include Morale::Platform
+    include Morale::IO
     
     attr_accessor :credentials
     

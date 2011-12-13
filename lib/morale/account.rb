@@ -3,7 +3,7 @@ require 'morale/credentials_store'
 
 module Morale
   class Account
-    include Morale::Platform
+    include Morale::IO
     
     class << self
       include Morale::CredentialsStore
@@ -82,7 +82,7 @@ module Morale
         password = running_on_windows? ? ask_for_secret_on_windows : ask_for_secret
         api_key = Morale::Client.authorize(user, password, @subdomain).api_key
 
-        say "Invalid email/password combination or API key was not generated." if api_key.nil?
+        say "Invalid email/password combination or API key was not generated." if api_key.empty?
 
         [@subdomain, api_key]
       end

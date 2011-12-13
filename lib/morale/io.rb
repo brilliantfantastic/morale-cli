@@ -1,13 +1,5 @@
 module Morale
-  module Platform
-    def home_directory
-      running_on_windows? ? ENV['USERPROFILE'] : ENV['HOME']
-    end
-    
-    def running_on_windows?
-      RUBY_PLATFORM =~ /mswin32|mingw32/
-    end
-    
+  module IO
     def say(message="", color=nil, force_new_line=(message.to_s !~ /( |\t)$/))
       message = message.to_s
       message = set_color(message, color) if color

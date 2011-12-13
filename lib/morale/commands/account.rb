@@ -6,7 +6,7 @@ require 'morale/authorization'
 module Morale::Commands
   class Account
     class << self
-      include Morale::Platform
+      include Morale::IO
       
       def list(email="", change=false)
         accounts = Morale::Client.accounts(email) unless email.nil? || email.empty?

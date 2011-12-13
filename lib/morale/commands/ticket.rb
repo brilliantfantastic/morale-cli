@@ -7,7 +7,7 @@ require 'hirb'
 module Morale::Commands
   class Ticket
     class << self
-      include Morale::Platform
+      include Morale::IO
       include Morale::Flow
       
       def command(command)

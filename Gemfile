@@ -1,9 +1,8 @@
 source 'http://rubygems.org'
 
 gem 'rake', '0.8.7'
-gem 'httparty', '0.7.8'
+gem 'morale-client'
 gem 'json', '1.4.6'
-gem 'crack', '0.1.8'
 gem 'thor', '0.14.6'
 gem 'hirb'
 

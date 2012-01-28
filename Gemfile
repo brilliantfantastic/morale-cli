@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rake', '0.8.7'
-gem 'morale-client'
+gem 'morale-client', '~> 1.0.0'
 gem 'json', '1.4.6'
 gem 'thor', '0.14.6'
 gem 'hirb'

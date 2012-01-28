@@ -8,5 +8,5 @@ end
 Before('@interactive') do
   $stdout.sync = true
   $stdin.sync  = true
-  @aruba_io_wait_seconds = 1
+  @aruba_io_wait_seconds = 2
 end
